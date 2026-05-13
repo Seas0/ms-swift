@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ms_swift"
+dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
+description = "Swift: Scalable lightWeight Infrastructure for Fine-Tuning"
+requires-python = ">=3.8"
+license = { text = "Apache License 2.0" }
+authors = [
+  { name = "DAMO ModelScope teams", email = "contact@modelscope.cn" },
+]
+keywords = ["transformers", "LLM", "lora", "megatron", "grpo", "sft"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/modelscope/ms-swift"
+
+[project.scripts]
+swift = "swift.cli.main:cli_main"
+megatron = "swift.cli._megatron.main:cli_main"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*"]
+
+[tool.setuptools.package-data]
+"*" = [
+  "utils/*",
+  "dataset/data/*.*",
+  "config/*.json",
+  "loss_scale/config/*.json",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "swift.version.__version__" }
+readme = { file = ["README.md"], content-type = "text/markdown" }
+dependencies = { file = ["requirements/framework.txt"] }
+
+[tool.setuptools.dynamic.optional-dependencies]
+megatron = { file = ["requirements/megatron.txt"] }
+eval = { file = ["requirements/eval.txt"] }
+swanlab = { file = ["requirements/swanlab.txt"] }
+ray = { file = ["requirements/ray.txt"] }
+tests = { file = ["requirements/tests.txt"] }
+docs = { file = ["requirements/docs.txt"] }
+
+[tool.uv]
+package = true
