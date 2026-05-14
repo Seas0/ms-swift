@@ -86,6 +86,13 @@ megatron = [
   "megatron-core>=0.15; python_version>='3.12'",
   "peft>=0.15; python_version>='3.12'",
 ]
+te = [
+  "transformer-engine; python_version>='3.12'",
+  "flash-attn==2.8.3; python_version=='3.12'",
+]
+apex = [
+  "apex; python_version>='3.12'",
+]
 tests = [
   "expecttest",
   "flake8",
@@ -133,3 +140,12 @@ readme = { file = ["README.md"], content-type = "text/markdown" }
 
 [tool.uv]
 package = true
+
+[tool.uv.sources]
+apex = { git = "https://github.com/nvidia/apex" }
+
+[tool.uv.extra-build-dependencies]
+apex = ["torch", "numpy", "ninja"]
+
+[tool.uv.extra-build-variables]
+apex = { APEX_CPP_EXT='1', APEX_CUDA_EXT='1', APEX_ALL_CONTRIB_EXT='1', APEX_PARALLEL_BUILD='8', NVCC_APPEND_FLAGS="--threads 4", TORCH_CUDA_ARCH_LIST='8.0;8.6;8.9;9.0' }
